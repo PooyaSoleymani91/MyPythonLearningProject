@@ -61,11 +61,20 @@ def start_copy():
 
 def showitem_btn():
     itemc=item_entry.get()
-    print(show_item(1,itemc))
+    crntfb=selected_option.get()
+    Allfbs=list_fehrestbaha()
+    for fb in Allfbs:
+        if fb["name"]==crntfb:
+            crntfbid=fb["id"]
+    if crntfb=="انتخاب کنید":
+        messagebox.showerror(title="خطا",message="لطفا فهرست بها را انتخاب کنید")
+    else:
+        print(show_item(crntfbid,itemc))
+        messagebox.showinfo(title="مشخصات آیتم", message=show_item(crntfbid,itemc))
 
-
-
-
+selectedOPTtxt=""
+def selectedOptCmnd():
+    print(dropdownfb.grab_release)
 
 
 
@@ -73,30 +82,36 @@ def showitem_btn():
 
 tk_root = tk.Tk()
 tk_root.title("منوی اصلی")
-# options=["test1","test2"]
+# finalOption=["test1","test2"]
 init_db()
 if list_fehrestbaha()==[]:
     options=[]
 else:
     options = list_fehrestbaha()
+finalOption=list()
+for optionOne in options:
+    finalOption.append(optionOne["name"])
+print(f"final Option is: {finalOption}")
 selected_option = tk.StringVar(tk_root)
+selected_option.set("انتخاب کنید")
 tk.Label(tk_root, text="عنوان فهرست بها:").grid(row=0, column=0)
 newfb_entry = tk.Entry(tk_root, width=50)
 newfb_entry.grid(row=0, column=1)
 tk.Button(tk_root, text="11اضافه کردن", command=None).grid(row=0, column=2)
-
 tk.Label(tk_root, text="ورودی فایل اکسل:").grid(row=1, column=0)
 file_entry = tk.Entry(tk_root, width=50)
 file_entry.grid(row=1, column=1)
-tk.Button(tk_root, text="باز کردن", command=select_file).grid(row=1, column=2)
+tk.Button(tk_root, text="باز کردن", command=select_file,).grid(row=1, column=2)
 tk.Button(tk_root, text="افزودن آیتم ها", command=start_copy).grid(row=2, column=2)
-tk.Label(tk_root, text="انتخاب فهرست بها:").grid(row=2, column=1)
-dropdownfb = tk.OptionMenu(tk_root,"انتخاب کنید",options)
+
+tk.Label(tk_root, text="انتخاب فهرست بها:").grid(row=2, column=0)
+dropdownfb = tk.OptionMenu(tk_root,selected_option,*finalOption)
 dropdownfb.grid(row=2, column=1)
+
 tk.Label(tk_root, text="انتخاب آیتم:").grid(row=3, column=0)
 item_entry = tk.Entry(tk_root, width=50)
 item_entry.grid(row=3, column=1)
-
+ 
 tk.Button(tk_root, text="مشاهده آیتم", command=showitem_btn).grid(row=4, column=1)
 
 tk_root.mainloop()

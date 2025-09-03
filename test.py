@@ -31,6 +31,7 @@ print(mylist)
 list1=["mansour","bat","pooya"]
 list2=["bat","sol","marshal"]
 print(list1)
+print(list1.index("bat"))
 list1.extend(list2)
 print(list1)
 list1.remove("bat")
@@ -45,3 +46,4 @@ list1.sort(reverse=True)
 print(list1)
 list1.clear()
 print(list1)
+
